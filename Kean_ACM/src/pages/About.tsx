@@ -19,19 +19,17 @@ const About: React.FC = () => {
       major: "Computer Science",
       year: "Junior",
       bio: "Passionate about competitive programming and machine learning. Led the team to victory in 3 regional programming contests.",
-      linkedin: "linkedin.com/in/maryam-ahmed-555813241",
-      image:
-        "https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=400",
+      linkedin: "https://www.linkedin.com/in/maryam-ahmed-555813241",
+      image: "/eboard/Maryam.png",
     },
     {
       name: "Anthony Bayate",
       position: "Vice President",
       major: "Software Engineering",
       year: "Junior",
-      bio: "Full-stack developer with expertise in React and Node.js. Organizes our web development workshops and hackathons.",
-      linkedin: "linkedin.com/in/abayate",
-      image:
-        "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400",
+      bio: "Event planning expert with a passion for bringing the CS community together. Organizes our largest workshops and competitions.",
+      linkedin: "https://www.linkedin.com/in/abayate",
+      image: "/eboard/AJ.png",
     },
     {
       name: "Luis Miguel Velazquez Rodriguez",
@@ -40,8 +38,7 @@ const About: React.FC = () => {
       year: "Sophomore",
       bio: "AI enthusiast and research assistant. Coordinates our machine learning study groups and guest speaker events.",
       linkedin: "https://www.linkedin.com/in/luismvelazquezrodriguez/",
-      image:
-        "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: "/eboard/Luis.png",
     },
     {
       name: "Muhammed Elhowary",
@@ -49,21 +46,17 @@ const About: React.FC = () => {
       major: "Computer Science",
       year: "Junior",
       bio: "Cybersecurity specialist and finance manager. Ensures our events are well-funded and manages club partnerships.",
-
-      linkedin: "linkedin.com/in/muhammed-elhowary-a738b42a4",
-
-      image:
-        "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400",
+      linkedin: "https://www.linkedin.com/in/muhammed-elhowary-a738b42a4",
+      image: "/eboard/Muhammed.png",
     },
     {
       name: "Karanpreet Singh",
       position: "Web Developer",
       major: "Computer Science",
       year: "Senior",
-      bio: "Event planning expert with a passion for bringing the CS community together. Organizes our largest workshops and competitions.",
-      linkedin: "linkedin.com/in/karanpreet-singh-1381822a0",
-      image:
-        "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400",
+      bio: "Full-stack developer with expertise in React and Node.js. Organizes our web development workshops and hackathons.",
+      linkedin: "https://www.linkedin.com/in/karanpreet-singh-1381822a0",
+      image: "/eboard/Karanpreet.jpg",
     },
     {
       name: "Noah Mea ",
@@ -71,9 +64,8 @@ const About: React.FC = () => {
       major: "Computer Science",
       year: "Sophomore",
       bio: "Connects ACM with industry professionals and alumni. Manages our mentorship program and career development initiatives.",
-      linkedin: "linkedin.com/in/noah-mea",
-      image:
-        "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400",
+      linkedin: "https://www.linkedin.com/in/noah-mea",
+      image: "/eboard/Noah.png",
     },
     {
       name: "Skyler LaFisca",
@@ -81,9 +73,8 @@ const About: React.FC = () => {
       major: "Computer Science",
       year: "Sophomore",
       bio: "Connects ACM with industry professionals and alumni. Manages our mentorship program and career development initiatives.",
-      linkedin: "linkedin.com/in/skyler-lafisca-b2b147216",
-      image:
-        "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400",
+      linkedin: "https://www.linkedin.com/in/skyler-lafisca-b2b147216",
+      image: "/eboard/Skyler.png",
     },
   ];
 
@@ -188,7 +179,7 @@ const About: React.FC = () => {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-64 object-cover object-center"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
                     <h3 className="text-xl font-bold text-white">
@@ -213,16 +204,13 @@ const About: React.FC = () => {
                   </p>
 
                   <div className="flex space-x-3">
-                    {member.linkedin && (
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-blue-100 text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200"
-                      >
-                        <Linkedin className="h-4 w-4" />
-                      </a>
-                    )}
+                    <a
+                      href={`${member.linkedin}`}
+                      target="_blank"
+                      className="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-blue-100 text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200"
+                    >
+                      <Linkedin className="h-4 w-4" />
+                    </a>
                   </div>
                 </div>
               </div>
