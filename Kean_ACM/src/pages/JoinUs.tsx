@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import {
   Check,
   Users,
@@ -8,21 +8,10 @@ import {
   Mail,
   Code,
   ExternalLink,
-  Instagram,
 } from "lucide-react";
 
 const JoinUs: React.FC = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    major: "",
-    year: "",
-    interests: [] as string[],
-    experience: "",
-    motivation: "",
-  });
-
+  
   const benefits = [
     {
       icon: <Code className="h-8 w-8 text-blue-600" />,
