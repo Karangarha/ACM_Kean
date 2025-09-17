@@ -203,7 +203,7 @@ const JoinUs: React.FC = () => {
               className="inline-flex items-center bg-cyan-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-400 transition-colors duration-200 space-x-2"
             >
               <Mail className="h-4 w-4" />
-              <a href="mailto:acmkeanchapter@kean.edu">
+              <a href="mailto:acmkeanchapter@kean.edu" className="select-all">
                 acmkeanchapter@kean.edu
               </a>
             </a>
