@@ -4,11 +4,13 @@ import Welcome from './pages/Welcome';
 import Events from './pages/Events';
 import About from './pages/About';
 import JoinUs from './pages/JoinUs';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
+        <SpeedInsights/>
         <Header />
         <main>
           <Routes>
