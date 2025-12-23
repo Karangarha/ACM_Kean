@@ -48,8 +48,8 @@ const Welcome: React.FC = () => {
               </Link>
 
               <Link
-                to="/join"
-                className="border-2 border-cyan-400 text-cyan-400 px-8 py-4 rounded-lg font-semibold hover:bg-cyan-400 hover:text-white transition-all duration-300 hover:cursor-pointer"
+                to={{pathname:"/join"}}
+                className="border-2 z-10 border-cyan-400 text-cyan-400 px-8 py-4 rounded-lg font-semibold hover:bg-cyan-400 hover:text-white transition-all duration-300 hover:cursor-pointer"
               >
                 <span>Join Us</span>
               </Link>
@@ -59,7 +59,7 @@ const Welcome: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 max-w-4xl mx-auto">
               <div className="text-center">
                 <Code2 className="h-8 w-8 mx-auto mb-2 text-cyan-400" />
-                <div className="text-2xl font-bold">25+</div>
+                <div className="text-2xl font-bold">125+</div>
                 <div className="text-blue-100">Workshops</div>
               </div>
               <div className="text-center">

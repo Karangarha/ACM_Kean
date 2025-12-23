@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, Filter } from 'lucide-react';
 import EventCard from '../components/EventCard';
 import eventsData from '../data/events.json';
@@ -6,10 +6,24 @@ import eventsData from '../data/events.json';
 const Events: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [Events, setEvents] = useState<any[]>(eventsData);
+
+  useEffect(()=>{
+    const currentDate = new Date();
+    const upcoming = eventsData
+      .filter((event) => new Date(event.date) > currentDate)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    const past = eventsData
+      .filter((event) => new Date(event.date) < currentDate)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const dateFiltered = [...upcoming,...past];
+    setEvents(dateFiltered);
+  },[])
 
   const categories = ['All', ...new Set(eventsData.map(event => event.category))];
 
-  const filteredEvents = eventsData.filter(event => {
+  const filteredEvents = Events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          event.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || event.category === selectedCategory;
@@ -54,7 +68,7 @@ const Events: React.FC = () => {
               >
                 {categories.map(category => (
                   <option key={category} value={category}>
-                    {category} Category
+                    {category}
                   </option>
                 ))}
               </select>

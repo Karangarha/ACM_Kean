@@ -23,7 +23,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, className = "" }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
-      weekday: "long", // added weekday for clarity
+      weekday: "long",
       month: "long",
       day: "numeric",
       year: "numeric",
@@ -39,9 +39,10 @@ const EventCard: React.FC<EventCardProps> = ({ event, className = "" }) => {
       "Web Dev": "bg-emerald-100 text-emerald-800",
       Career: "bg-orange-100 text-orange-800",
       Security: "bg-red-100 text-red-800",
-      "Open Source": "bg-green-100 text-green-800",
-      "Mobile Dev": "bg-indigo-100 text-indigo-800",
+      "Tech Talk": "bg-green-100 text-green-800",
+      Fundraise: "bg-indigo-100 text-indigo-800",
       Competition: "bg-yellow-100 text-yellow-800",
+      Meeting: "opacity-0",
     };
     return colors[category] || "bg-gray-100 text-gray-800";
   };
@@ -50,11 +51,11 @@ const EventCard: React.FC<EventCardProps> = ({ event, className = "" }) => {
     <div
       className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${className}`}
     >
-      <div className="relative">
+      <div className="relative h-64">
         <img
           src={event.image}
           alt={event.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-64 object-cover object-top"
         />
         {event.featured && (
           <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -96,14 +97,35 @@ const EventCard: React.FC<EventCardProps> = ({ event, className = "" }) => {
 
         <div className="mt-6">
           {isPast ? (
-            <a href={event.Link} target="_blank">
-              <button className="w-full bg-red-500 text-white py-2 px-4 rounded-lg font-medium ">
+            <a
+              href={event.Link}
+              target="_blank"
+              className={`${
+                event.Link === "Null" ? "pointer-events-none" : ""
+              } `}
+            >
+              <button
+                className={`w-full bg-red-500 text-white py-2 px-4 rounded-lg font-medium ${
+                  event.Link === "Null" ? `bg-gray-500` : ``
+                }`}
+              >
                 Event Ended
               </button>
             </a>
           ) : (
-            <a href={event.Link} target="_blank" rel="noopener noreferrer">
-              <button className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-2 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 transform hover:scale-105">
+            <a
+              href={event.Link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${
+                event.Link === "Null" ? "pointer-events-none" : ""
+              } `}
+            >
+              <button
+                className={`w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-2 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 transform hover:scale-105${
+                  event.Link === "Null" ? `bg-gradient-to-r from-gray-500 to-gray-500` : ``
+                }`}
+              >
                 RSVP
               </button>
             </a>

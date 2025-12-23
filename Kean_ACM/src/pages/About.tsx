@@ -80,11 +80,6 @@ const About: React.FC = () => {
 
   const achievements = [
     {
-      icon: <Award className="h-8 w-8 text-yellow-600" />,
-      title: "Regional Champions",
-      description: "1st place in ACM-ICPC Regional Programming Contest 2024",
-    },
-    {
       icon: <Users className="h-8 w-8 text-blue-600" />,
       title: "Growing Community",
       description: "200+ active members across all CS disciplines",
@@ -135,7 +130,7 @@ const About: React.FC = () => {
           </div>
 
           {/* Achievements Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {achievements.map((achievement, index) => (
               <div
                 key={index}
@@ -161,7 +156,7 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Executive Board 2024-2025
+              Executive Board 2025-2026
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Meet the dedicated students leading ACM Club and organizing
