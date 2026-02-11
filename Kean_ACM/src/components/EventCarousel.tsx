@@ -1,40 +1,51 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import EventCard from "./EventCard";
-import eventsData from "../data/events.json";
+import { Event } from "../types";
 
 const EventCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [displayEvents, setDisplayEvents] = useState<any[]>([]);
+  const [displayEvents, setDisplayEvents] = useState<Event[]>([]);
   const intervalRef = useRef<number | null>(null);
 
   const Events = displayEvents;
 
   useEffect(() => {
-    const currentDate = new Date();
+    fetch(import.meta.env.VITE_API_URI + "/api/events")
+      .then((res) => res.json())
+      .then((eventsData: Event[]) => {
+        const currentDate = new Date();
 
-    const upcoming = eventsData
-      .filter((event) => new Date(event.date) > currentDate)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        const upcoming = eventsData
+          .filter((event) => new Date(event.date) > currentDate)
+          .sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+          );
 
-    const past = eventsData
-      .filter((event) => new Date(event.date) < currentDate)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        const past = eventsData
+          .filter((event) => new Date(event.date) < currentDate)
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          );
 
-    const selectedEvents = [upcoming[0], upcoming[1],past[0]].filter(Boolean);
-    setDisplayEvents(selectedEvents);
+        const selectedEvents = [upcoming[0], upcoming[1], past[0]].filter(
+          Boolean,
+        );
+        setDisplayEvents(selectedEvents);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === Events.length - 1 ? 0 : prevIndex + 1
+      prevIndex === Events.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? Events.length - 1 : prevIndex - 1
+      prevIndex === 0 ? Events.length - 1 : prevIndex - 1,
     );
   };
 
@@ -52,6 +63,14 @@ const EventCarousel: React.FC = () => {
       }
     };
   }, [Events.length, isPaused]);
+
+  if (Events.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-gray-500">No upcoming highlights at the moment.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,7 +95,7 @@ const EventCarousel: React.FC = () => {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {Events.map((event) => (
-            <div key={event.id} className="w-full flex-shrink-0 px-4">
+            <div key={event._id} className="w-full flex-shrink-0 px-4">
               <EventCard event={event} />
             </div>
           ))}

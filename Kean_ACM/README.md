@@ -24,7 +24,7 @@ Before you begin, ensure you have met the following requirements:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/YourUsername/ACM_Kean.git
+   git clone https://github.com/karangarha/ACM_Kean.git
    cd ACM_Kean/Kean_ACM
    ```
 
@@ -73,6 +73,22 @@ To check for code quality issues:
 ```bash
 npm run lint
 ```
+
+## 🚀 Deployment
+
+### Vercel (Frontend)
+
+When deploying to Vercel, ensure you set the following **Environment Variable** in the project settings:
+
+- `VITE_API_URI`: The URL of your backend hosted on Azure (e.g., `https://your-backend.azurewebsites.net`).
+
+### Azure (Backend)
+
+For the backend to correctly handle cookies and CORS with the Vercel frontend, you **MUST** set the following **Environment Variable** in the Azure App Service configuration:
+
+- `NODE_ENV`: Set to `production`.
+
+> **Important:** The login system relies on HttpOnly cookies. For cross-site requests (Vercel -> Azure), cookies must be `SameSite=None; Secure`. This only happens when `NODE_ENV` is set to `production` on the backend.
 
 ## 📂 Project Structure
 
