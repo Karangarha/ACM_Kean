@@ -1,5 +1,6 @@
 import React from "react";
 import { Linkedin, Users, Target, Award, Calendar } from "lucide-react";
+import { Profile } from "../types";
 
 interface BoardMember {
   name: string;
@@ -12,71 +13,67 @@ interface BoardMember {
 }
 
 const About: React.FC = () => {
-  const boardMembers: BoardMember[] = [
-    {
-      name: "Maryam Ahmed",
-      position: "President",
-      major: "Computer Science",
-      year: "Junior",
-      bio: "Passionate about competitive programming and machine learning. Led the team to victory in 3 regional programming contests.",
-      linkedin: "https://www.linkedin.com/in/maryam-ahmed-555813241",
-      image: "/eboard/Maryam.png",
-    },
-    {
-      name: "Anthony Bayate",
-      position: "Vice President",
-      major: "Software Engineering",
-      year: "Junior",
-      bio: "Event planning expert with a passion for bringing the CS community together. Organizes our largest workshops and competitions.",
-      linkedin: "https://www.linkedin.com/in/abayate",
-      image: "/eboard/AJ.png",
-    },
-    {
-      name: "Luis Miguel Velazquez Rodriguez",
-      position: "Secretary",
-      major: "Computer Science",
-      year: "Sophomore",
-      bio: "AI enthusiast and research assistant. Coordinates our machine learning study groups and guest speaker events.",
-      linkedin: "https://www.linkedin.com/in/luismvelazquezrodriguez/",
-      image: "/eboard/Luis.png",
-    },
-    {
-      name: "Muhammed Elhowary",
-      position: "Treasurer",
-      major: "Computer Science",
-      year: "Junior",
-      bio: "Cybersecurity specialist and finance manager. Ensures our events are well-funded and manages club partnerships.",
-      linkedin: "https://www.linkedin.com/in/muhammed-elhowary-a738b42a4",
-      image: "/eboard/Muhammed.png",
-    },
-    {
-      name: "Karanpreet Singh",
-      position: "Web Developer",
-      major: "Computer Science",
-      year: "Senior",
-      bio: "Full-stack developer with expertise in React and Node.js. Organizes our web development workshops and hackathons.",
-      linkedin: "https://www.linkedin.com/in/karanpreet-singh-1381822a0",
-      image: "/eboard/Karanpreet.jpg",
-    },
-    {
-      name: "Noah Mea ",
-      position: "Public Relation",
-      major: "Computer Science",
-      year: "Sophomore",
-      bio: "Connects ACM with industry professionals and alumni. Manages our mentorship program and career development initiatives.",
-      linkedin: "https://www.linkedin.com/in/noah-mea",
-      image: "/eboard/Noah.png",
-    },
-    {
-      name: "Skyler LaFisca",
-      position: "Social Media Manager",
-      major: "Computer Science",
-      year: "Sophomore",
-      bio: "Connects ACM with industry professionals and alumni. Manages our mentorship program and career development initiatives.",
-      linkedin: "https://www.linkedin.com/in/skyler-lafisca-b2b147216",
-      image: "/eboard/Skyler.png",
-    },
-  ];
+  const [boardMembers, setBoardMembers] = React.useState<BoardMember[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchBoardMembers = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URI}/api/profiles`,
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch profiles");
+        }
+        const profiles: Profile[] = await response.json();
+
+        // Filter for Executive Board members and map to BoardMember interface
+        const executives = profiles
+          .filter((profile: Profile) => profile.Member === "Executive Board")
+          .map((profile: Profile) => ({
+            name: profile.name,
+            position: profile.position,
+            major: profile.about?.major || "Computer Science",
+            year: profile.about?.year || "Student",
+            bio:
+              profile.about?.personal_goals ||
+              "Dedicated to advancing our CS community through leadership and innovation.",
+            linkedin: profile.link?.linkedin || undefined,
+            image:
+              profile.image ||
+              "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fallback image
+          }));
+
+        // Sort by position hierarchy if needed
+        const positionOrder: { [key: string]: number } = {
+          President: 1,
+          "Vice President": 2,
+          Treasurer: 3,
+          Secretary: 4,
+          "Web Developer": 5,
+          "Public Relations Officer": 6,
+          "Social Media Manager": 7,
+          Member: 8,
+        };
+
+        executives.sort((a, b) => {
+          return (
+            (positionOrder[a.position] || 99) -
+            (positionOrder[b.position] || 99)
+          );
+        });
+
+        setBoardMembers(executives);
+      } catch (error) {
+        console.error("Error fetching board members:", error);
+        // Fallback to empty or keep loading state false
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBoardMembers();
+  }, []);
 
   const achievements = [
     {
@@ -169,53 +166,68 @@ const About: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {boardMembers.map((member, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-              >
-                <div className="relative">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-64 object-cover object-center"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                    <h3 className="text-xl font-bold text-white">
-                      {member.name}
-                    </h3>
-                    <p className="text-cyan-300 font-medium">
-                      {member.position}
-                    </p>
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {boardMembers.length > 0 ? (
+                boardMembers.map((member, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <div className="relative">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-64 object-cover object-center"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                        <h3 className="text-xl font-bold text-white">
+                          {member.name}
+                        </h3>
+                        <p className="text-cyan-300 font-medium">
+                          {member.position}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-6">
+                      <div className="mb-4">
+                        <p className="text-sm text-gray-600 mb-1">
+                          <span className="font-medium">{member.major}</span> •{" "}
+                          {member.year}
+                        </p>
+                      </div>
+
+                      <p className="text-gray-700 mb-4 text-sm leading-relaxed">
+                        {member.bio}
+                      </p>
+
+                      <div className="flex space-x-3">
+                        {member.linkedin && (
+                          <a
+                            href={`${member.linkedin}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-blue-100 text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200"
+                          >
+                            <Linkedin className="h-4 w-4" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="col-span-full text-center text-gray-500">
+                  No executive board members found.
                 </div>
-
-                <div className="p-6">
-                  <div className="mb-4">
-                    <p className="text-sm text-gray-600 mb-1">
-                      <span className="font-medium">{member.major}</span> •{" "}
-                      {member.year}
-                    </p>
-                  </div>
-
-                  <p className="text-gray-700 mb-4 text-sm leading-relaxed">
-                    {member.bio}
-                  </p>
-
-                  <div className="flex space-x-3">
-                    <a
-                      href={`${member.linkedin}`}
-                      target="_blank"
-                      className="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-blue-100 text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200"
-                    >
-                      <Linkedin className="h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
